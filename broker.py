@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python2
 
 import socket
 import struct
@@ -76,13 +76,8 @@ def main():
             msg, req_addr = sockfd.recvfrom(CHUNKSIZE)
 
             logging.debug(">>>>>>>>>Listening on *:%d (udp) Connection from %s Got message %s" % (BROKER_PORT, req_addr, msg))
-
-            priv_addr_bytes = msg[-6:]
-            msg= msg[:-7]
-            msg = codecs.decode(msg, 'ascii', 'ignore')
-            action, uuid = msg.split(":", 1)
             
-            #action, uuid, priv_addr_bytes = msg.split(':', 2)
+            action, uuid, priv_addr_bytes = msg.split(':', 2)
 
             logging.debug(">>>>>>>>>parsed action=%s, uuid=%s, priv_byte_addr=%s" % (action, uuid, priv_addr_bytes))
             
