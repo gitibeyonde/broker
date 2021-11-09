@@ -77,7 +77,10 @@ def main():
 
             logging.debug(">>>>>>>>>Listening on *:%d (udp) Connection from %s Got message %s" % (BROKER_PORT, req_addr, msg))
             
-            action, uuid, priv_addr_bytes = msg.split(':', 2)
+            if len(msg) < 2:
+                action = "NONE"
+            else:
+                action, uuid, priv_addr_bytes = msg.split(':', 2)
 
             logging.debug(">>>>>>>>>parsed action=%s, uuid=%s, priv_byte_addr=%s" % (action, uuid, priv_addr_bytes))
             
