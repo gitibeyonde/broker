@@ -100,24 +100,10 @@ def main():
                 senders_pub_ip, senders_pub_port = req_addr
                 if uuid in publicMap:
                     rcver_pub_addr, rcver_pub_ip = publicMap[uuid]
-                    if senders_pub_ip == rcver_pub_addr:
-                        logging.debug("sender public ip is equal to receiver")
-                        if uuid in privateMap and req_addr in uuidMap:
-                            req_uuid = uuidMap[req_addr]
-                            sockfd.sendto(b"RPADDR:" + addr2bytes(privateMap[uuid]), req_addr)
-                            logging.debug("RPADDR:Sent peer addrs of device %s to %s" % (privateMap[uuid], req_addr))
-                            sockfd.sendto(b"RPADDR:" + addr2bytes(privateMap[req_uuid]), publicMap[uuid])
-                            logging.debug("RPADDR:Sent Net peer %s of %s to %s" % (privateMap[req_uuid], req_addr, publicMap[uuid]))
-                        else:
-                            sockfd.sendto(b"RPADDR:" + addr2bytes(publicMap[uuid]), req_addr)
-                            logging.debug("RPADDR:Sent peer addrs of device %s to %s" % (publicMap[uuid], req_addr))
-                            sockfd.sendto(b"RPADDR:" + addr2bytes(req_addr), publicMap[uuid])
-                            logging.debug("RPADDR:Sent Net peer %s to %s" % (req_addr, publicMap[uuid]))
-                    else:
-                        sockfd.sendto(b"RPADDR:" + addr2bytes(publicMap[uuid]), req_addr)
-                        logging.debug("RPADDR:Sent peer addrs of device %s to %s" % (publicMap[uuid], req_addr))
-                        sockfd.sendto(b"RPADDR:" + addr2bytes(req_addr), publicMap[uuid])
-                        logging.debug("RPADDR:Sent Net peer %s to %s" % (req_addr, publicMap[uuid]))
+                    sockfd.sendto(b"RPADDR:" + addr2bytes(publicMap[uuid]), req_addr)
+                    logging.debug("RPADDR:Sent peer addrs of device %s to %s" % (publicMap[uuid], req_addr))
+                    sockfd.sendto(b"RPADDR:" + addr2bytes(req_addr), publicMap[uuid])
+                    logging.debug("RPADDR:Sent Net peer %s to %s" % (req_addr, publicMap[uuid]))
                 else:
                     #there uuid is not registered
                     sockfd.sendto(b"NOTONLINE:", req_addr)
